@@ -1,6 +1,7 @@
-name,age,salary
-Ali,25,30000
-Ayşe,,35000
-Mehmet,30,
-Zeynep,28,40000
-Can,35,50000
+vehicle_id,speed,fuel_consumption,engine_temp,mileage
+1,80,6.5,90,12000
+2,100,8.2,95,30000
+3,60,5.9,85,15000
+4,120,9.5,105,45000
+5,90,,92,20000
+6,110,8.9,110,50000

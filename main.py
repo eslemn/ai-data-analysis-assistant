@@ -1,24 +1,45 @@
 import pandas as pd
+from cleaner import clean_data
+from analyzer import analyze_data
+from health import calculate_health_score
+from llm_report import generate_llm_report
 
-print("Dataset loading...")
 
-df = pd.read_csv("data.csv")
+def main():
+    print("Dataset loading...")
 
-print("\nDataset Summary")
-print("-----------------")
-print(f"Rows: {df.shape[0]}")
-print(f"Columns: {df.shape[1]}")
+    # CSV yükle
+    df = pd.read_csv("data.csv")
 
-print("\nMissing Values:")
-missing = df.isnull().sum()
-print(missing)
+    print("\nFirst rows:")
+    print(df.head())
 
-print("\nStatistical Summary:")
-print(df.describe())
+    # Veri temizleme
+    print("\nCleaning data...")
+    df = clean_data(df)
 
-print("\nAutomatic Comments:")
-for column in missing.index:
-    if missing[column] > 0:
-        print(f"- Column '{column}' has missing values.")
+    # Analiz
+    print("\nRunning analysis...")
+    analysis_summary = analyze_data(df)
 
-print("\nAnalysis completed.")
+    print("\nAnalysis Summary:")
+    print(analysis_summary)
+
+    # Araç sağlık skoru
+    df = calculate_health_score(df)
+
+    print("\nVehicle Health Scores:")
+    print(df[["vehicle_id", "health_score"]])
+
+    # LLM raporu
+    print("\nGenerating AI report...")
+    report = generate_llm_report(analysis_summary)
+
+    print("\n===== AI VEHICLE REPORT =====")
+    print(report)
+
+    print("\nAnalysis completed.")
+
+
+if __name__ == "__main__":
+    main()
