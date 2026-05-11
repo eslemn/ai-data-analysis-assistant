@@ -55,13 +55,27 @@ vehicle_id | health_score
 
 The system then generates an AI-based technical evaluation and maintenance suggestions for vehicle monitoring.
 
+## Quick Start (Streamlit App)
+
+To run the new Streamlit-based web application with the SQLite database, follow these steps:
+
+1. Install the required dependencies:
+```bash
+pip install streamlit pandas matplotlib
+```
+
+2. Run the application:
+```bash
+streamlit run app.py
+```
+
+3. The web interface will open in your browser, where you can upload CSV files, run analyses, view charts, and check the database records.
+
 ## Future Improvements
 
 - Real-time vehicle data integration
-- Dashboard visualization
 - Predictive maintenance modeling
 - Fleet monitoring system
-- Web-based interface
 
 ## Author
 

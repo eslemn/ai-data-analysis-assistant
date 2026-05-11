@@ -1,32 +1,44 @@
 import subprocess
+from config import Config
 
 
-def generate_llm_report(summary):
+class LLMReportGenerator:
+    def generate(self, summary, df):
+        vehicle_results = df[["vehicle_id", "health_score", "status", "maintenance_recommendation"]].to_string(index=False)
 
-    prompt = f"""
+        prompt = f"""
 You are an automotive data analyst AI.
 
-Analyze the vehicle dataset summary and provide insights.
+Analyze the following vehicle dataset summary and health results.
 
 Dataset summary:
 {summary}
 
-Give:
-- potential risks
-- abnormal patterns
-- maintenance suggestions
-Keep it short and technical.
+Vehicle results:
+{vehicle_results}
+
+Provide the report in TWO parts: First in English, then in Turkish.
+For both languages, include:
+- important technical findings (önemli teknik bulgular)
+- risky vehicles (riskli araçlar)
+- maintenance suggestions (bakım önerileri)
+
+Keep the report short, clear and technical.
 """
 
-    try:
-        result = subprocess.run(
-            ["ollama", "run", "gemma3:4b"],
-            input=prompt,
-            text=True,
-            capture_output=True
-        )
+        try:
+            config = Config()
 
-        return result.stdout
+            result = subprocess.run(
+                ["ollama", "run", config.model_name],
+                input=prompt,
+                text=True,
+                capture_output=True,
+                encoding="utf-8",
+                errors="replace"
+            )
 
-    except Exception as e:
-        return f"AI report generation failed: {e}"
+            return result.stdout.strip()
+
+        except Exception as e:
+            return f"AI report generation failed: {e}"
